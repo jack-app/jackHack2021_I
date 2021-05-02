@@ -14,18 +14,22 @@ public class KoiChecker : MonoBehaviour
     Sprite clearKoiSprite;
     [SerializeField]
     Sprite normalKoiSprite;
+    [SerializeField]
+    ObjectRandomizer objectRandomizer;
 
     public List<int> koiSetList = new List<int>();
 
-    //[SerializeField]
-    //private List<bool> fuFallCheck = new List<bool>();
-    [SerializeField]
     private List<bool> koiCatchCheck = new List<bool>();
 
     [SerializeField]
     OfuMover ofuMover;
 
-    private bool waitReset = false;
+    [SerializeField]
+    GameObject failedPanel;
+
+    private bool waitReset = true;
+
+    private int score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -55,16 +59,35 @@ public class KoiChecker : MonoBehaviour
             {
                 if (koiSetList.All(x => koiCatchCheck[x]))
                 {
-                    Debug.Log("clear");
+                    Clear();
                 }
                 else
                 {
-                    Debug.Log("failed");
+                    Failed();
                 }
                 waitReset = true;
                 koiCatchCheck = Enumerable.Repeat(false, amidaLineList.Count).ToList();
             }
         }
+    }
+
+    public void Clear()
+    {
+        Debug.Log("clear");
+        score += koiSetList.Count;
+        Invoke("ClearExecute", 1.0f);
+    }
+
+    private void ClearExecute()
+    {
+        objectRandomizer.ResetOfu();
+    }
+
+    public void Failed()
+    {
+        Debug.Log("failed");
+        PlayerPrefs.SetInt("ofuCount", score);
+        failedPanel.SetActive(true);
     }
 
     public bool CheckFu(int fuIndex)

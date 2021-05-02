@@ -26,6 +26,9 @@ public class ObjectRandomizer : MonoBehaviour
     [SerializeField]
     KoiChecker koiChecker;
 
+    [SerializeField]
+    TimerView timerView;
+
     public int createOfuCount = 1;
 
     private List<GameObject> currentOfus = new List<GameObject>();
@@ -34,7 +37,7 @@ public class ObjectRandomizer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ResetOfu();
+        //ResetOfu();
     }
 
     public void ResetOfu()
@@ -131,6 +134,7 @@ public class ObjectRandomizer : MonoBehaviour
         }
 
         ofuMover.ResetOfuMover();
+        timerView.ResetTimer();
     }
 
     // Update is called once per frame
