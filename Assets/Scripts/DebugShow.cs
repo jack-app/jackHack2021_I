@@ -33,7 +33,7 @@ public class DebugShow : MonoBehaviour
 
     public void Click()
     {
-        Debug.Log("‰Ÿ‚·‚È");
+        Debug.Log("æŠ¼ã™ãª");
     }
     
 }
