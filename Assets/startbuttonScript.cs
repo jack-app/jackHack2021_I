@@ -25,6 +25,6 @@ public class startbuttonScript : MonoBehaviour
 
     void moveScene()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("MainScene");
     }
 }
