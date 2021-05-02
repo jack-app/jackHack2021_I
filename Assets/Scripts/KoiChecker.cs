@@ -31,6 +31,9 @@ public class KoiChecker : MonoBehaviour
 
     private int score = 0;
 
+    [SerializeField]
+    ScoreView scoreView;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +78,7 @@ public class KoiChecker : MonoBehaviour
     {
         Debug.Log("clear");
         score += koiSetList.Count;
+        scoreView.Show(score);
         Invoke("ClearExecute", 1.0f);
     }
 
@@ -87,6 +91,14 @@ public class KoiChecker : MonoBehaviour
     {
         Debug.Log("failed");
         PlayerPrefs.SetInt("ofuCount", score);
+
+        string highScoreKey = "ofuHighScoreEasy";
+        if (PlayerPrefs.GetInt("ofuLimit", 1) != 1) highScoreKey = "ofuHighScoreHard";
+
+        if(PlayerPrefs.GetInt(highScoreKey, 0) < score)
+        {
+            PlayerPrefs.SetInt(highScoreKey, score);
+        }
         failedPanel.SetActive(true);
     }
 

@@ -11,10 +11,25 @@ public class GameStarter : MonoBehaviour
     [SerializeField]
     ObjectRandomizer objectRandomizer;
 
+    [SerializeField]
+    AudioClip startSE;
+
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public void ChangeText()
     {
-        uiText.text = "スタート";
+        uiText.text = "?X?^?[?g";
         uiText.transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void PlayStartSE()
+    {
+        audioSource.PlayOneShot(startSE);
     }
 
     public void StartGame()

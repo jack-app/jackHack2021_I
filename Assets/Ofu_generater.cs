@@ -11,7 +11,7 @@ public class Ofu_generater : MonoBehaviour
     }
 
     public GameObject ofuprefab;
-    float span = 0.1f;
+    float span = 0.2f;
     float delta = 0;
 
     // Update is called once per frame

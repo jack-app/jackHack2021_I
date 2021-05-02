@@ -7,6 +7,7 @@ public class LineDrawer : MonoBehaviour
 {
     Vector3 initialMousePos;
     LineRenderer lineRenderer;
+    AudioSource audioSource;
 
     [SerializeField]
     List<LineRenderer> amidaRendererList = new List<LineRenderer>();
@@ -15,6 +16,9 @@ public class LineDrawer : MonoBehaviour
     private int[] crossIdxList = new int[2];
     [SerializeField]
     GameObject newDrawedLine;
+
+    [SerializeField]
+    AudioClip drawSE;
     
     public List<LineStatus> newLines = new List<LineStatus>();
 
@@ -30,6 +34,7 @@ public class LineDrawer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         lineRenderer = GetComponent<LineRenderer>();
 
         float maxY = (amidaRendererList[0].transform.position + amidaRendererList[0].GetPosition(0)).y;
@@ -71,7 +76,7 @@ public class LineDrawer : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // マウスをクリックしたときの処理
+        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // ?}?E?X???N???b?N??????????????
         {
 
             initialMousePos = Input.mousePosition;
@@ -79,25 +84,25 @@ public class LineDrawer : MonoBehaviour
             transform.position = (Vector2)initialMousePos;
             lineRenderer.enabled = true;
         }
-        if (Input.GetMouseButton(0) && lineLimit > 0) // マウス押しっぱなしの処理
+        if (Input.GetMouseButton(0) && lineLimit > 0) // ?}?E?X??????????????????
         {
-            // 交点マーカーのリセット
+            // ???_?}?[?J?[?????Z?b?g
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
 
             var mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // 画面座標からワールド座標へ変換
-            var linePos = mousePos - initialMousePos; // 初期座標からマウス座標へのベクトル
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // ???????W???????[???h???W??????
+            var linePos = mousePos - initialMousePos; // ???????W?????}?E?X???W?????x?N?g??
             lineRenderer.SetPosition(1, linePos);
 
-            float lineVecSign = Mathf.Sign(linePos.x); // 符号取得(線が左右のどちらに引かれてるか)
+            float lineVecSign = Mathf.Sign(linePos.x); // ????????(???????E??????????????????????)
 
-            // 引いた直線内にある最大2本のあみだラインを取得
+            // ??????????????????????2?{???????????C????????
             var nearLineList = amidaRendererList.Where(l => lineVecSign * l.transform.position.x >= lineVecSign * initialMousePos.x).
                                                 Where(l => lineVecSign * l.transform.position.x <= lineVecSign * mousePos.x).
                                                 OrderBy(l => Mathf.Abs(l.transform.position.x - initialMousePos.x)).Take(2);
 
-            // すべての交点について交点マーカーを配置
+            // ???????????_???????????_?}?[?J?[???z?u
             for (int i = 0; i < nearLineList.Count(); i++)
             {
                 crossIdxList[i] = amidaRendererList.IndexOf(nearLineList.ToList()[i]);
@@ -106,7 +111,7 @@ public class LineDrawer : MonoBehaviour
                 var amidaX = l.transform.position.x;
                 var amidaMaxY = l.GetPosition(0).y;
                 var amidaMinY = l.GetPosition(1).y;
-                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // 交点のy座標取得
+                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // ???_??y???W????
                 if (crossY >= amidaMinY && crossY <= amidaMaxY)
                 {
                     crossMarkers[i].SetActive(true);
@@ -115,16 +120,17 @@ public class LineDrawer : MonoBehaviour
             }
 
         }
-        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // マウスを離したときの処理
+        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // ?}?E?X??????????????????
         {
-            lineRenderer.enabled = false; // 直線を削除
+            lineRenderer.enabled = false; // ??????????
             if (crossMarkers[0].activeInHierarchy && crossMarkers[1].activeInHierarchy)
             {
                 CreateNewLine(crossIdxList[0], crossMarkers[0].transform.position, crossIdxList[1], crossMarkers[1].transform.position);
                 lineLimit -= 1;
+                audioSource.PlayOneShot(drawSE);
             }
 
-            // 交点マーカーのリセット
+            // ???_?}?[?J?[?????Z?b?g
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
         }
@@ -133,7 +139,7 @@ public class LineDrawer : MonoBehaviour
 
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
     {
-        // 新しく引かれる線の描画
+        // ?V?????????????????`??
         GameObject newLine = Instantiate(newDrawedLine);
         newLine.transform.position = startPosition;
         var l = newLine.GetComponent<LineRenderer>();

@@ -17,10 +17,10 @@ public class ReturnButtonScript : MonoBehaviour
         
     }
 
-    //âÊñ êÿÇËë÷Ç¶
+    //????????????
     public void OnClickStartButton()
     {
-        Invoke("moveScene", 1.0f);
+        Invoke("moveScene", 0.2f);
     }
 
     void moveScene()

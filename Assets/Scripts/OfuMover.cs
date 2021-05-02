@@ -26,13 +26,21 @@ public class OfuMover : MonoBehaviour
     [SerializeField]
     KoiChecker koiChecker;
 
+    [SerializeField]
+    AudioClip eatSE;
+
+    [SerializeField]
+    AudioClip failedSE;
+
+    private AudioSource audioSource;
+
     public List<bool> ofuStop = new List<bool>();
     private List<int> ofuGoalList = new List<int>();
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void ResetOfuMover()
@@ -69,10 +77,16 @@ public class OfuMover : MonoBehaviour
                 {
                     ofuStop[i] = true;
 
+                    ofu[i].transform.position = new Vector3(ofuRoads[i][ofuRoads[i].Count - 1].x, ofuRoads[i][ofuRoads[i].Count - 1].y, -2);
+
                     if (!koiChecker.CheckFu(ofuGoalList[i]))
                     {
                         ofu[i].GetComponent<SpriteRenderer>().sprite = failedFuSprite;
-
+                        audioSource.PlayOneShot(failedSE);
+                    }
+                    else
+                    {
+                        audioSource.PlayOneShot(eatSE);
                     }
                     continue;
                 }

@@ -29,10 +29,14 @@ public class ObjectRandomizer : MonoBehaviour
     [SerializeField]
     TimerView timerView;
 
-    public int createOfuCount = 1;
+    [SerializeField]
+    int createOfuCount = 1;
 
     private List<GameObject> currentOfus = new List<GameObject>();
     private List<GameObject> currentKois = new List<GameObject>();
+
+    private List<bool> oldOfuSet = new List<bool>();
+    private List<bool> oldKoiSet = new List<bool>();
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,8 @@ public class ObjectRandomizer : MonoBehaviour
 
     public void ResetOfu()
     {
+        createOfuCount = PlayerPrefs.GetInt("ofuLimit", 1);
+
         koiChecker.ResetKoiChecker();
 
         foreach (var ofustack in currentOfus)
@@ -56,9 +62,9 @@ public class ObjectRandomizer : MonoBehaviour
 
         List<bool> isOfuSet = new List<bool>();
         List<bool> isKoiSet = new List<bool>();
-        for(int i = 0; i < amidaLineList.Count; i++)
+        for (int i = 0; i < amidaLineList.Count; i++)
         {
-            if(i < createOfuCount)
+            if (i < createOfuCount)
             {
                 isOfuSet.Add(true);
                 isKoiSet.Add(true);
@@ -70,8 +76,14 @@ public class ObjectRandomizer : MonoBehaviour
             }
         }
 
-        isOfuSet = isOfuSet.OrderBy(_ => System.Guid.NewGuid()).ToList();
-        isKoiSet = isKoiSet.OrderBy(_ => System.Guid.NewGuid()).ToList();
+        do
+        {
+            isOfuSet = isOfuSet.OrderBy(_ => System.Guid.NewGuid()).ToList();
+            isKoiSet = isKoiSet.OrderBy(_ => System.Guid.NewGuid()).ToList();
+        } while (isOfuSet.SequenceEqual(oldOfuSet) && isKoiSet.SequenceEqual(oldKoiSet));
+
+        oldOfuSet = isOfuSet;
+        oldKoiSet = isKoiSet;
 
         int ofuCount = 0;
         int koiCount = 0;

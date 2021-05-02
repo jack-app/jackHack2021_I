@@ -17,10 +17,17 @@ public class startbuttonScript : MonoBehaviour
         
     }
 
-    //âÊñ êÿÇËë÷Ç¶
+    //????????????
     public void OnClickStartButton()
     {
-        Invoke("moveScene", 1.0f);
+        PlayerPrefs.SetInt("ofuLimit", 1);
+        Invoke("moveScene", 0.2f);
+    }
+
+    public void OnClickHardStartButton()
+    {
+        PlayerPrefs.SetInt("ofuLimit", 2);
+        Invoke("moveScene", 0.2f);
     }
 
     void moveScene()

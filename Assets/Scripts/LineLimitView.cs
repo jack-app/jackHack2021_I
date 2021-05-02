@@ -15,6 +15,7 @@ public class LineLimitView : MonoBehaviour
     void Start()
     {
         uiText = gameObject.GetComponent<Text>();
+        uiText.text = PlayerPrefs.GetInt("ofuLimit", 1).ToString();
     }
 
     // Update is called once per frame
