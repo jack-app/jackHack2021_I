@@ -37,6 +37,7 @@ public class OfuMover : MonoBehaviour
 
     public void ResetOfuMover()
     {
+        lineDrawer.ResetLineLimit(ofu.Count);
         ofuStop = Enumerable.Repeat(false, ofu.Count).ToList();
         ofuRoads = new List<List<Vector2>>();
         ofuRoadindexList = new List<int>();

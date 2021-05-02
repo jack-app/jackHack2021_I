@@ -18,6 +18,8 @@ public class LineDrawer : MonoBehaviour
     
     public List<LineStatus> newLines = new List<LineStatus>();
 
+    private int lineLimit;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,11 @@ public class LineDrawer : MonoBehaviour
         }
     }
 
+    public void ResetLineLimit(int limit)
+    {
+        lineLimit = limit;
+    }
+
     float GetRand()
     {
         var rndX = Random.Range(0f, 1f);
@@ -49,14 +56,15 @@ public class LineDrawer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // マウスをクリックしたときの処理
+        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // マウスをクリックしたときの処理
         {
+
             initialMousePos = Input.mousePosition;
             initialMousePos = Camera.main.ScreenToWorldPoint(initialMousePos);
             transform.position = (Vector2)initialMousePos;
             lineRenderer.enabled = true;
         }
-        if (Input.GetMouseButton(0)) // マウス押しっぱなしの処理
+        if (Input.GetMouseButton(0) && lineLimit > 0) // マウス押しっぱなしの処理
         {
             // 交点マーカーのリセット
             crossMarkers[0].SetActive(false);
@@ -92,12 +100,13 @@ public class LineDrawer : MonoBehaviour
             }
 
         }
-        else if (Input.GetMouseButtonUp(0)) // マウスを離したときの処理
+        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // マウスを離したときの処理
         {
             lineRenderer.enabled = false; // 直線を削除
             if(crossMarkers[0].activeInHierarchy && crossMarkers[1].activeInHierarchy)
             {
                 CreateNewLine(crossIdxList[0], crossMarkers[0].transform.position, crossIdxList[1], crossMarkers[1].transform.position);
+                lineLimit -= 1;
             }
 
             // 交点マーカーのリセット
