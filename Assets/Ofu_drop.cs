@@ -14,9 +14,13 @@ public class Ofu_drop : MonoBehaviour
     void Update()
     {
         // —Ž‰º
-        transform.Translate(0, -0.02f, 0);
+        transform.Translate(0, -0.01f, 0, Space.World);
+        
 
-        if (transform.position.y < -4.0f)
+        // ƒ‰ƒ“ƒ_ƒ€‚ÉÁ–Å
+        int num = Random.Range(-90, 0);
+
+        if (transform.position.y < num)
         {
             Destroy(gameObject);
         }
