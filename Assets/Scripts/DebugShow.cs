@@ -12,11 +12,6 @@ public class DebugShow : MonoBehaviour
     void Start()
     {
         Debug.Log("starting");
-        int a = 123;
-        a = 456;
-        float b = 123.0f;
-        string c = "hello";
-        bool d = true;
         GameObject g = gameObject;
         Debug.Log(g.name);
         cam = gameObject.GetComponent<Camera>();

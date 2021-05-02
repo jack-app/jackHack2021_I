@@ -12,8 +12,12 @@ public class LineDrawer : MonoBehaviour
     List<LineRenderer> amidaRendererList = new List<LineRenderer>();
     [SerializeField]
     List<GameObject> crossMarkers = new List<GameObject>();
+    private int[] crossIdxList = new int[2];
     [SerializeField]
     GameObject newDrawedLine;
+    
+    public List<LineStatus> newLines = new List<LineStatus>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +56,8 @@ public class LineDrawer : MonoBehaviour
             // すべての交点について交点マーカーを配置
             for (int i = 0; i < nearLineList.Count(); i++)
             {
+                crossIdxList[i] = amidaRendererList.IndexOf(nearLineList.ToList()[i]);
+
                 var l = nearLineList.ToList()[i];
                 var amidaX = l.transform.position.x;
                 var amidaMaxY = l.GetPosition(0).y;
@@ -75,6 +81,14 @@ public class LineDrawer : MonoBehaviour
                 newLine.transform.position = (Vector2)crossMarkers[0].transform.position;
                 var l = newLine.GetComponent<LineRenderer>();
                 l.SetPositions(new Vector3[2] { Vector3.zero, (Vector2)(crossMarkers[1].transform.position - crossMarkers[0].transform.position) });
+
+                LineStatus ls = new LineStatus();
+                ls.lineObject = newLine;
+                ls.isVertexLineCrossed[crossIdxList[0]] = true;
+                ls.isVertexLineCrossed[crossIdxList[1]] = true;
+                ls.crossPos[crossIdxList[0]] = crossMarkers[0].transform.position;
+                ls.crossPos[crossIdxList[1]] = crossMarkers[1].transform.position;
+                newLines.Add(ls);
             }
 
             // 交点マーカーのリセット
@@ -82,4 +96,13 @@ public class LineDrawer : MonoBehaviour
             crossMarkers[1].SetActive(false);
         }
     }
+    
+}
+
+[System.Serializable]
+public class LineStatus
+{
+    public GameObject lineObject;
+    public bool[] isVertexLineCrossed = new bool[4] { false, false, false, false };
+    public Vector2[] crossPos = new Vector2[4];
 }
