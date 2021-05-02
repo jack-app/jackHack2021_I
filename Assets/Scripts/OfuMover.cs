@@ -8,20 +8,31 @@ public class OfuMover : MonoBehaviour
     public List<GameObject> ofu = new List<GameObject>();
     public LineDrawer lineDrawer;
     public float ofuGoalY;
-    private List<int> ofuStartIdxList = new List<int>();
+    public List<int> ofuStartIdxList = new List<int>();
     private List<List<Vector2>> ofuRoads = new List<List<Vector2>>();
     private bool ofuGo = false;
-    private float ratio = 0f;
+    private List<float> ratios = new List<float>();
     private List<int> ofuRoadindexList = new List<int>();
+
+    [SerializeField]
+    float moveSpeed = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        ofuStartIdxList = new List<int>() { 0 };
-        for(int i = 0; i < ofu.Count; i++)
+        
+    }
+
+    public void ResetOfuMover()
+    {
+        ofuRoads = new List<List<Vector2>>();
+        ofuRoadindexList = new List<int>();
+        ratios = new List<float>();
+        for (int i = 0; i < ofu.Count; i++)
         {
             ofuRoads.Add(new List<Vector2>());
             ofuRoadindexList.Add(0);
+            ratios.Add(0f);
         }
     }
 
@@ -30,26 +41,32 @@ public class OfuMover : MonoBehaviour
     {
         if (ofuGo)
         {
+            List<bool> ofuStop = Enumerable.Repeat(false, ofu.Count).ToList();
+
             for(int i = 0; i < ofu.Count; i++)
             {
+                if (ofuRoadindexList[i] + 1 >= ofuRoads[i].Count)
+                {
+                    ofuStop[i] = true;
+                    continue;
+                }
                 Vector2 previousPosition = ofuRoads[i][ofuRoadindexList[i]];
                 Vector2 nextPosition = ofuRoads[i][ofuRoadindexList[i]+1];
-                Vector2 currentPosition = Vector2.Lerp(previousPosition, nextPosition, ratio);
+                Vector2 currentPosition = Vector2.Lerp(previousPosition, nextPosition, ratios[i]);
                 Vector3 movePosition = new Vector3(currentPosition.x, currentPosition.y, -2);
                 ofu[i].transform.position = movePosition;
-            }
-            ratio += 0.01f;
-            if (ratio >= 1.0f)
-            {
-                ratio = 0;
-                for (int i = 0; i < ofu.Count; i++)
+
+                ratios[i] += moveSpeed / (nextPosition - previousPosition).magnitude * Time.deltaTime;
+                if(ratios[i] >= 1.0f)
                 {
+                    ratios[i] = 0.0f;
                     ofuRoadindexList[i] += 1;
-                    if(ofuRoadindexList[i]+1 >= ofuRoads[i].Count)
-                    {
-                        ofuGo = false;
-                    }
                 }
+            }
+
+            if(ofuStop.All(x => x))
+            {
+                ofuGo = false;
             }
         }
     }
