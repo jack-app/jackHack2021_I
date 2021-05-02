@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +17,7 @@ public class ReturnButtonScript : MonoBehaviour
         
     }
 
-    //��ʐ؂�ւ�
+    //画面切り替え
     public void OnClickStartButton()
     {
         Invoke("moveScene", 1.0f);

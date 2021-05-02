@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -71,7 +71,7 @@ public class LineDrawer : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // ƒ}ƒEƒX‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚Ìˆ—
+        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // ãƒã‚¦ã‚¹ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸã¨ãã®å‡¦ç†
         {
 
             initialMousePos = Input.mousePosition;
@@ -79,25 +79,25 @@ public class LineDrawer : MonoBehaviour
             transform.position = (Vector2)initialMousePos;
             lineRenderer.enabled = true;
         }
-        if (Input.GetMouseButton(0) && lineLimit > 0) // ƒ}ƒEƒX‰Ÿ‚µ‚Á‚Ï‚È‚µ‚Ìˆ—
+        if (Input.GetMouseButton(0) && lineLimit > 0) // ãƒã‚¦ã‚¹æŠ¼ã—ã£ã±ãªã—ã®å‡¦ç†
         {
-            // Œğ“_ƒ}[ƒJ[‚ÌƒŠƒZƒbƒg
+            // äº¤ç‚¹ãƒãƒ¼ã‚«ãƒ¼ã®ãƒªã‚»ãƒƒãƒˆ
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
 
             var mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // ‰æ–ÊÀ•W‚©‚çƒ[ƒ‹ƒhÀ•W‚Ö•ÏŠ·
-            var linePos = mousePos - initialMousePos; // ‰ŠúÀ•W‚©‚çƒ}ƒEƒXÀ•W‚Ö‚ÌƒxƒNƒgƒ‹
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // ç”»é¢åº§æ¨™ã‹ã‚‰ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã¸å¤‰æ›
+            var linePos = mousePos - initialMousePos; // åˆæœŸåº§æ¨™ã‹ã‚‰ãƒã‚¦ã‚¹åº§æ¨™ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
             lineRenderer.SetPosition(1, linePos);
 
-            float lineVecSign = Mathf.Sign(linePos.x); // •„†æ“¾(ü‚ª¶‰E‚Ì‚Ç‚¿‚ç‚Éˆø‚©‚ê‚Ä‚é‚©)
+            float lineVecSign = Mathf.Sign(linePos.x); // ç¬¦å·å–å¾—(ç·šãŒå·¦å³ã®ã©ã¡ã‚‰ã«å¼•ã‹ã‚Œã¦ã‚‹ã‹)
 
-            // ˆø‚¢‚½’¼ü“à‚É‚ ‚éÅ‘å2–{‚Ì‚ ‚İ‚¾ƒ‰ƒCƒ“‚ğæ“¾
+            // å¼•ã„ãŸç›´ç·šå†…ã«ã‚ã‚‹æœ€å¤§2æœ¬ã®ã‚ã¿ã ãƒ©ã‚¤ãƒ³ã‚’å–å¾—
             var nearLineList = amidaRendererList.Where(l => lineVecSign * l.transform.position.x >= lineVecSign * initialMousePos.x).
                                                 Where(l => lineVecSign * l.transform.position.x <= lineVecSign * mousePos.x).
                                                 OrderBy(l => Mathf.Abs(l.transform.position.x - initialMousePos.x)).Take(2);
 
-            // ‚·‚×‚Ä‚ÌŒğ“_‚É‚Â‚¢‚ÄŒğ“_ƒ}[ƒJ[‚ğ”z’u
+            // ã™ã¹ã¦ã®äº¤ç‚¹ã«ã¤ã„ã¦äº¤ç‚¹ãƒãƒ¼ã‚«ãƒ¼ã‚’é…ç½®
             for (int i = 0; i < nearLineList.Count(); i++)
             {
                 crossIdxList[i] = amidaRendererList.IndexOf(nearLineList.ToList()[i]);
@@ -106,7 +106,7 @@ public class LineDrawer : MonoBehaviour
                 var amidaX = l.transform.position.x;
                 var amidaMaxY = l.GetPosition(0).y;
                 var amidaMinY = l.GetPosition(1).y;
-                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // Œğ“_‚ÌyÀ•Wæ“¾
+                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // äº¤ç‚¹ã®yåº§æ¨™å–å¾—
                 if (crossY >= amidaMinY && crossY <= amidaMaxY)
                 {
                     crossMarkers[i].SetActive(true);
@@ -115,16 +115,16 @@ public class LineDrawer : MonoBehaviour
             }
 
         }
-        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // ƒ}ƒEƒX‚ğ—£‚µ‚½‚Æ‚«‚Ìˆ—
+        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // ãƒã‚¦ã‚¹ã‚’é›¢ã—ãŸã¨ãã®å‡¦ç†
         {
-            lineRenderer.enabled = false; // ’¼ü‚ğíœ
+            lineRenderer.enabled = false; // ç›´ç·šã‚’å‰Šé™¤
             if (crossMarkers[0].activeInHierarchy && crossMarkers[1].activeInHierarchy)
             {
                 CreateNewLine(crossIdxList[0], crossMarkers[0].transform.position, crossIdxList[1], crossMarkers[1].transform.position);
                 lineLimit -= 1;
             }
 
-            // Œğ“_ƒ}[ƒJ[‚ÌƒŠƒZƒbƒg
+            // äº¤ç‚¹ãƒãƒ¼ã‚«ãƒ¼ã®ãƒªã‚»ãƒƒãƒˆ
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
         }
@@ -133,7 +133,7 @@ public class LineDrawer : MonoBehaviour
 
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
     {
-        // V‚µ‚­ˆø‚©‚ê‚éü‚Ì•`‰æ
+        // æ–°ã—ãå¼•ã‹ã‚Œã‚‹ç·šã®æç”»
         GameObject newLine = Instantiate(newDrawedLine);
         newLine.transform.position = startPosition;
         var l = newLine.GetComponent<LineRenderer>();

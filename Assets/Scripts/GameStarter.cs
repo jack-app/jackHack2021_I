@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +13,7 @@ public class GameStarter : MonoBehaviour
 
     public void ChangeText()
     {
-        uiText.text = "ÉXÉ^Å[Ég";
+        uiText.text = "„Çπ„Çø„Éº„Éà";
         uiText.transform.Rotate(0f, 180f, 0f);
     }
 

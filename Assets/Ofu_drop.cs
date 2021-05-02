@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +13,11 @@ public class Ofu_drop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // —‰º
+        // è½ä¸‹
         transform.Translate(0, -0.01f, 0, Space.World);
         
 
-        // ƒ‰ƒ“ƒ_ƒ€‚ÉÁ–Å
+        // ãƒ©ãƒ³ãƒ€ãƒ ã«æ¶ˆæ»…
         int num = Random.Range(-90, 0);
 
         if (transform.position.y < num)
