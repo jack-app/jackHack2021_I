@@ -17,6 +17,18 @@ public class OfuMover : MonoBehaviour
     [SerializeField]
     float moveSpeed = 0.5f;
 
+    [SerializeField]
+    Sprite normalFuSprite;
+
+    [SerializeField]
+    Sprite failedFuSprite;
+
+    [SerializeField]
+    KoiChecker koiChecker;
+
+    public List<bool> ofuStop = new List<bool>();
+    private List<int> ofuGoalList = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,11 +37,14 @@ public class OfuMover : MonoBehaviour
 
     public void ResetOfuMover()
     {
+        ofuStop = Enumerable.Repeat(false, ofu.Count).ToList();
         ofuRoads = new List<List<Vector2>>();
         ofuRoadindexList = new List<int>();
+        ofuGoalList = new List<int>();
         ratios = new List<float>();
         for (int i = 0; i < ofu.Count; i++)
         {
+            ofu[i].GetComponent<SpriteRenderer>().sprite = normalFuSprite;
             ofuRoads.Add(new List<Vector2>());
             ofuRoadindexList.Add(0);
             ratios.Add(0f);
@@ -41,13 +56,23 @@ public class OfuMover : MonoBehaviour
     {
         if (ofuGo)
         {
-            List<bool> ofuStop = Enumerable.Repeat(false, ofu.Count).ToList();
 
             for(int i = 0; i < ofu.Count; i++)
             {
+                if (ofuStop[i])
+                {
+                    continue;
+                }
+
                 if (ofuRoadindexList[i] + 1 >= ofuRoads[i].Count)
                 {
                     ofuStop[i] = true;
+
+                    if (!koiChecker.CheckFu(ofuGoalList[i]))
+                    {
+                        ofu[i].GetComponent<SpriteRenderer>().sprite = failedFuSprite;
+
+                    }
                     continue;
                 }
                 Vector2 previousPosition = ofuRoads[i][ofuRoadindexList[i]];
@@ -103,11 +128,12 @@ public class OfuMover : MonoBehaviour
             }
 
             ofuRoad.Add(new Vector2(ofuRoad.Last().x, ofuGoalY));
+            ofuGoalList.Add(currentIdx);
 
-            foreach(var road in ofuRoad)
-            {
-                Debug.Log(road);
-            }
+            //foreach(var road in ofuRoad)
+            //{
+            //    Debug.Log(road);
+            //}
 
             ofuRoads[i] = ofuRoad;
         }

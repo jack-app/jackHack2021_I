@@ -23,6 +23,27 @@ public class LineDrawer : MonoBehaviour
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+
+        float maxY = (amidaRendererList[0].transform.position + amidaRendererList[0].GetPosition(0)).y;
+        float minY = (amidaRendererList[0].transform.position + amidaRendererList[0].GetPosition(1)).y;
+        for (int i = 0; i < amidaRendererList.Count - 1; i++)
+        {
+            float startY = Random.Range(minY + 0.3f, maxY - 0.3f);
+            float normRand = GetRand();
+            float endY = Mathf.Clamp(startY + normRand, minY + 0.3f, maxY - 0.3f);
+            float startX = (amidaRendererList[i].transform.position + amidaRendererList[i].GetPosition(0)).x;
+            float endX = (amidaRendererList[i + 1].transform.position + amidaRendererList[i + 1].GetPosition(0)).x;
+
+            CreateNewLine(i, new Vector2(startX, startY), i+1, new Vector2(endX, endY));
+        }
+    }
+
+    float GetRand()
+    {
+        var rndX = Random.Range(0f, 1f);
+        var rndY = Random.Range(0f, 1f);
+
+        return Mathf.Sqrt(-2.0f * Mathf.Log(rndX)) * Mathf.Cos(2.0f * Mathf.PI * rndY);
     }
 
     // Update is called once per frame
@@ -76,25 +97,31 @@ public class LineDrawer : MonoBehaviour
             lineRenderer.enabled = false; // 直線を削除
             if(crossMarkers[0].activeInHierarchy && crossMarkers[1].activeInHierarchy)
             {
-                // 新しく引かれる線の描画
-                GameObject newLine = Instantiate(newDrawedLine);
-                newLine.transform.position = (Vector2)crossMarkers[0].transform.position;
-                var l = newLine.GetComponent<LineRenderer>();
-                l.SetPositions(new Vector3[2] { Vector3.zero, (Vector2)(crossMarkers[1].transform.position - crossMarkers[0].transform.position) });
-
-                LineStatus ls = new LineStatus();
-                ls.lineObject = newLine;
-                ls.isVertexLineCrossed[crossIdxList[0]] = true;
-                ls.isVertexLineCrossed[crossIdxList[1]] = true;
-                ls.crossPos[crossIdxList[0]] = crossMarkers[0].transform.position;
-                ls.crossPos[crossIdxList[1]] = crossMarkers[1].transform.position;
-                newLines.Add(ls);
+                CreateNewLine(crossIdxList[0], crossMarkers[0].transform.position, crossIdxList[1], crossMarkers[1].transform.position);
             }
 
             // 交点マーカーのリセット
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
         }
+    }
+
+    void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
+    {
+        // 新しく引かれる線の描画
+        GameObject newLine = Instantiate(newDrawedLine);
+        newLine.transform.position = startPosition;
+        var l = newLine.GetComponent<LineRenderer>();
+        l.SetPositions(new Vector3[2] { Vector3.zero, endPosition - startPosition });
+
+        LineStatus ls = new LineStatus();
+        ls.lineObject = newLine;
+        ls.isVertexLineCrossed[startIdx] = true;
+        ls.isVertexLineCrossed[endIdx] = true;
+        ls.crossPos[startIdx] = startPosition;
+        ls.crossPos[endIdx] = endPosition;
+        newLines.Add(ls);
+        
     }
     
 }

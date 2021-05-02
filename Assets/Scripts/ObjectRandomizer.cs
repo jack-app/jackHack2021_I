@@ -23,6 +23,9 @@ public class ObjectRandomizer : MonoBehaviour
     [SerializeField]
     OfuMover ofuMover;
 
+    [SerializeField]
+    KoiChecker koiChecker;
+
     public int createOfuCount = 1;
 
     private List<GameObject> currentOfus = new List<GameObject>();
@@ -36,6 +39,8 @@ public class ObjectRandomizer : MonoBehaviour
 
     public void ResetOfu()
     {
+        koiChecker.ResetKoiChecker();
+
         foreach (var ofustack in currentOfus)
         {
             ofustack.SetActive(false);
@@ -105,7 +110,7 @@ public class ObjectRandomizer : MonoBehaviour
             if (isKoiSet[i])
             {
                 float koiPosX = (amidaLineList[i].GetPosition(0) + amidaLineList[i].transform.position).x;
-                Vector3 koiPos = new Vector3(koiPosX, koiPosY, -1.5f);
+                Vector3 koiPos = new Vector3(koiPosX, koiPosY, -3f);
                 GameObject koiInstance;
                 if (koiCount < currentKois.Count)
                 {
@@ -119,6 +124,9 @@ public class ObjectRandomizer : MonoBehaviour
                 }
                 koiInstance.transform.position = koiPos;
                 koiCount += 1;
+
+                koiChecker.koi.Add(koiInstance);
+                koiChecker.koiSetList.Add(i);
             }
         }
 

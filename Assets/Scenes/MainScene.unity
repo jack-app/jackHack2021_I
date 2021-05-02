@@ -181,7 +181,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 2.5, z: 0}
   - {x: 0, y: -3, z: 0}
   m_Parameters:
     serializedVersion: 3
@@ -371,10 +371,11 @@ MonoBehaviour:
   - {fileID: 493993537}
   ofuPrefab: {fileID: 2988465513691931642, guid: 76929d579d04b6c42ba9d3d5f85dd65f, type: 3}
   koiPrefab: {fileID: 2242809026533036111, guid: 5b8877950671f4f43829af82d0a4fb88, type: 3}
-  ofuStartY: 3.81
+  ofuStartY: 3.1
   koiPosY: -4.04
   ofuMover: {fileID: 1230424488}
-  createOfuCount: 2
+  koiChecker: {fileID: 833014501}
+  createOfuCount: 1
 --- !u!4 &769297297
 Transform:
   m_ObjectHideFlags: 0
@@ -388,6 +389,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &833014500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 833014502}
+  - component: {fileID: 833014501}
+  m_Layer: 0
+  m_Name: KoiChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &833014501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833014500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec61e22fc2ca7a6428357d4cb88cad94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  koi: []
+  amidaLineList:
+  - {fileID: 1707099454}
+  - {fileID: 1078881046}
+  - {fileID: 1760549196}
+  - {fileID: 493993537}
+  clearKoiSprite: {fileID: 21300000, guid: 0ef9a21ccff8e44c890bad7dbe8baff7, type: 3}
+  normalKoiSprite: {fileID: 21300000, guid: e501bcfa40c9e48538cbb5bc08dd9f2b, type: 3}
+  koiSetList: 
+  koiCatchCheck: 
+  ofuMover: {fileID: 1230424488}
+--- !u!4 &833014502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833014500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 837.6851, y: 1860.9752, z: -1.8195512}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &954739847
 GameObject:
@@ -562,7 +617,7 @@ RectTransform:
   - {fileID: 1754445709}
   - {fileID: 1416346821}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -654,7 +709,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 2.5, z: 0}
   - {x: 0, y: -3, z: 0}
   m_Parameters:
     serializedVersion: 3
@@ -759,6 +814,10 @@ MonoBehaviour:
   ofuGoalY: -3
   ofuStartIdxList: 
   moveSpeed: 7
+  normalFuSprite: {fileID: 21300000, guid: 1e0e8e4338c3541589955ab2ff0008d7, type: 3}
+  failedFuSprite: {fileID: 21300000, guid: a0dc8e2a411bc054ab6912a84f64d0ee, type: 3}
+  koiChecker: {fileID: 833014501}
+  ofuStop: 
 --- !u!4 &1230424489
 Transform:
   m_ObjectHideFlags: 0
@@ -809,7 +868,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 162.6, y: 369.4}
+  m_AnchoredPosition: {x: 49.10003, y: -372.99997}
   m_SizeDelta: {x: 85.4187, y: 37.7426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1416346822
@@ -964,7 +1023,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 2.5, z: 0}
   - {x: 0, y: -3, z: 0}
   m_Parameters:
     serializedVersion: 3
@@ -1150,7 +1209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 66.5, y: 369.4}
+  m_AnchoredPosition: {x: -47, y: -373}
   m_SizeDelta: {x: 85.4187, y: 37.7426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1754445710
@@ -1305,7 +1364,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 2.5, z: 0}
   - {x: 0, y: -3, z: 0}
   m_Parameters:
     serializedVersion: 3
@@ -1511,7 +1570,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4430701599884456770
 PrefabInstance:
