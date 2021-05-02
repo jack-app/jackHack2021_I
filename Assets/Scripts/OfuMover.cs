@@ -80,6 +80,7 @@ public class OfuMover : MonoBehaviour
                 Vector2 currentPosition = Vector2.Lerp(previousPosition, nextPosition, ratios[i]);
                 Vector3 movePosition = new Vector3(currentPosition.x, currentPosition.y, -2);
                 ofu[i].transform.position = movePosition;
+                ofu[i].transform.Rotate(0f, 0f, 3f);
 
                 ratios[i] += moveSpeed / (nextPosition - previousPosition).magnitude * Time.deltaTime;
                 if(ratios[i] >= 1.0f)
