@@ -20,6 +20,11 @@ public class startbuttonScript : MonoBehaviour
     //‰æ–ÊØ‚è‘Ö‚¦
     public void OnClickStartButton()
     {
+        Invoke("moveScene", 1.0f);
+    }
+
+    void moveScene()
+    {
         SceneManager.LoadScene("GameScene");
     }
 }
