@@ -76,7 +76,7 @@ public class LineDrawer : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // ?}?E?X???N???b?N??????????????
+        if (Input.GetMouseButtonDown(0) && lineLimit > 0) // マウスをクリックしたときの処理
         {
 
             initialMousePos = Input.mousePosition;
@@ -84,25 +84,25 @@ public class LineDrawer : MonoBehaviour
             transform.position = (Vector2)initialMousePos;
             lineRenderer.enabled = true;
         }
-        if (Input.GetMouseButton(0) && lineLimit > 0) // ?}?E?X??????????????????
+        if (Input.GetMouseButton(0) && lineLimit > 0) // マウス押しっぱなしの処理
         {
-            // ???_?}?[?J?[?????Z?b?g
+            // 交点マーカーのリセット
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
 
             var mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // ???????W???????[???h???W??????
-            var linePos = mousePos - initialMousePos; // ???????W?????}?E?X???W?????x?N?g??
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos); // 画面座標からワールド座標へ変換
+            var linePos = mousePos - initialMousePos; // 初期座標からマウス座標へのベクトル
             lineRenderer.SetPosition(1, linePos);
 
-            float lineVecSign = Mathf.Sign(linePos.x); // ????????(???????E??????????????????????)
+            float lineVecSign = Mathf.Sign(linePos.x); // 符号取得(線が左右のどちらに引かれてるか)
 
-            // ??????????????????????2?{???????????C????????
+            // 引いた直線内にある最大2本のあみだラインを取得
             var nearLineList = amidaRendererList.Where(l => lineVecSign * l.transform.position.x >= lineVecSign * initialMousePos.x).
                                                 Where(l => lineVecSign * l.transform.position.x <= lineVecSign * mousePos.x).
                                                 OrderBy(l => Mathf.Abs(l.transform.position.x - initialMousePos.x)).Take(2);
 
-            // ???????????_???????????_?}?[?J?[???z?u
+            // すべての交点について交点マーカーを配置
             for (int i = 0; i < nearLineList.Count(); i++)
             {
                 crossIdxList[i] = amidaRendererList.IndexOf(nearLineList.ToList()[i]);
@@ -111,7 +111,7 @@ public class LineDrawer : MonoBehaviour
                 var amidaX = l.transform.position.x;
                 var amidaMaxY = l.GetPosition(0).y;
                 var amidaMinY = l.GetPosition(1).y;
-                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // ???_??y???W????
+                var crossY = linePos.y / linePos.x * (amidaX - initialMousePos.x) + initialMousePos.y; // 交点のy座標取得
                 if (crossY >= amidaMinY && crossY <= amidaMaxY)
                 {
                     crossMarkers[i].SetActive(true);
@@ -120,9 +120,9 @@ public class LineDrawer : MonoBehaviour
             }
 
         }
-        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // ?}?E?X??????????????????
+        else if (Input.GetMouseButtonUp(0) && lineLimit > 0) // マウスを離したときの処理
         {
-            lineRenderer.enabled = false; // ??????????
+            lineRenderer.enabled = false; // 直線を削除
             if (crossMarkers[0].activeInHierarchy && crossMarkers[1].activeInHierarchy)
             {
                 CreateNewLine(crossIdxList[0], crossMarkers[0].transform.position, crossIdxList[1], crossMarkers[1].transform.position);
@@ -130,7 +130,7 @@ public class LineDrawer : MonoBehaviour
                 audioSource.PlayOneShot(drawSE);
             }
 
-            // ???_?}?[?J?[?????Z?b?g
+            // 交点マーカーのリセット
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
         }
@@ -139,7 +139,7 @@ public class LineDrawer : MonoBehaviour
 
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
     {
-        // ?V?????????????????`??
+        // 新しく引かれる線の描画
         GameObject newLine = Instantiate(newDrawedLine);
         newLine.transform.position = startPosition;
         var l = newLine.GetComponent<LineRenderer>();

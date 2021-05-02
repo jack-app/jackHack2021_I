@@ -17,7 +17,7 @@ public class startbuttonScript : MonoBehaviour
         
     }
 
-    //????????????
+    //画面切り替え
     public void OnClickStartButton()
     {
         PlayerPrefs.SetInt("ofuLimit", 1);

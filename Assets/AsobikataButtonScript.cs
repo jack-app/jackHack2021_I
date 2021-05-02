@@ -17,7 +17,7 @@ public class AsobikataButtonScript : MonoBehaviour
         
     }
 
-    //????????????
+    //画面切り替え
     public void OnClickStartButton()
     {
         Invoke("moveScene", 0.2f);

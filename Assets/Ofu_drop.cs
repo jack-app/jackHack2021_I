@@ -13,11 +13,11 @@ public class Ofu_drop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ????
+        // 落下
         transform.Translate(0, -0.6f * Time.deltaTime, 0, Space.World);
         
 
-        // ?????_????????
+        // ランダムに消滅
         int num = Random.Range(-90, 0);
 
         if (transform.position.y < num)

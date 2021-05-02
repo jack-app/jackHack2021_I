@@ -23,7 +23,7 @@ public class GameStarter : MonoBehaviour
 
     public void ChangeText()
     {
-        uiText.text = "?X?^?[?g";
+        uiText.text = "スタート";
         uiText.transform.Rotate(0f, 180f, 0f);
     }
 
