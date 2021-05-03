@@ -2458,7 +2458,7 @@ MonoBehaviour:
   normalFuSprite: {fileID: 21300000, guid: 1e0e8e4338c3541589955ab2ff0008d7, type: 3}
   failedFuSprite: {fileID: 21300000, guid: a0dc8e2a411bc054ab6912a84f64d0ee, type: 3}
   koiChecker: {fileID: 833014501}
-  eatSE: {fileID: 8300000, guid: 522a558d3834e4aaa90f6bac4a7b3e36, type: 3}
+  eatSE: {fileID: 8300000, guid: 99ab2767df4be4986a7ee8355bcea5bd, type: 3}
   failedSE: {fileID: 8300000, guid: 27726fbe79a13473a8ec3d56af17c983, type: 3}
   ofuStop: 
 --- !u!4 &1230424489
