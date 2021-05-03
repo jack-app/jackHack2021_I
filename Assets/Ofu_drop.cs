@@ -18,7 +18,7 @@ public class Ofu_drop : MonoBehaviour
         
 
         // ランダムに消滅
-        int num = Random.Range(-175, 0);
+        int num = Random.Range(-100, 0);
 
         if (transform.position.y < num)
         {
