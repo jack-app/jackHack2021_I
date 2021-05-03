@@ -18,11 +18,19 @@ public class LineDrawer : MonoBehaviour
     GameObject newDrawedLine;
 
     [SerializeField]
+    List<GameObject> stockList = new List<GameObject>();
+
+    private int maxStock = 3;
+
+    [SerializeField]
     AudioClip drawSE;
+
+    [SerializeField]
+    AudioClip deleteSE;
     
     public List<LineStatus> newLines = new List<LineStatus>();
-
-    public bool cantCreateLine = false;
+    
+    public bool cantCreateLine = true;
 
     public int lineLimit
     {
@@ -86,6 +94,10 @@ public class LineDrawer : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && lineLimit > 0) // マウス押しっぱなしの処理
         {
+            if (!lineRenderer.enabled)
+            {
+                return;
+            }
             // 交点マーカーのリセット
             crossMarkers[0].SetActive(false);
             crossMarkers[1].SetActive(false);
@@ -142,6 +154,7 @@ public class LineDrawer : MonoBehaviour
         // 新しく引かれる線の描画
         GameObject newLine = Instantiate(newDrawedLine);
         newLine.transform.position = startPosition;
+        newLine.GetComponent<DeleteCollider>().lineDrawer = this;
         var l = newLine.GetComponent<LineRenderer>();
         l.SetPositions(new Vector3[2] { Vector3.zero, endPosition - startPosition });
 
@@ -153,6 +166,25 @@ public class LineDrawer : MonoBehaviour
         ls.crossPos[endIdx] = endPosition;
         newLines.Add(ls);
         
+    }
+
+    public void DeleteNewLine(LineRenderer lineRenderer)
+    {
+        Debug.Log(cantCreateLine);
+        if (cantCreateLine || maxStock <= 0)
+        {
+            return;
+        }
+
+        var (line,idx) = newLines.Select((x, i) => new { Content=x, Idx=i})
+                                .Where(x => x.Content.lineObject == lineRenderer.gameObject)
+                                .Select(x => (x.Content,x.Idx))
+                                .First();
+        newLines.RemoveAt(idx);
+        Destroy(line.lineObject);
+        audioSource.PlayOneShot(deleteSE);
+        maxStock--;
+        stockList[maxStock].SetActive(false);
     }
     
 }

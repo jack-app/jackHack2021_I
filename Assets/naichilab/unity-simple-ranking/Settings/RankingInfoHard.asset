@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RankingInfoHard
   m_EditorClassIdentifier: 
   BoardName: Hard
-  ClassName: HiScoreHard
+  ClassName: HardScore
   Type: 0
   Order: 1
   CustomFormat: 
