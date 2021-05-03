@@ -30,6 +30,11 @@ public class startbuttonScript : MonoBehaviour
         Invoke("moveScene", 0.2f);
     }
 
+    public void OnClickRetryButton()
+    {
+        Invoke("moveScene", 0.2f);
+    }
+
     void moveScene()
     {
         SceneManager.LoadScene("MainScene");
