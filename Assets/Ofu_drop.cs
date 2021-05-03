@@ -14,11 +14,11 @@ public class Ofu_drop : MonoBehaviour
     void Update()
     {
         // 落下
-        transform.Translate(0, -0.6f * Time.deltaTime, 0, Space.World);
+        transform.Translate(0, -2f * Time.deltaTime, 0, Space.World);
         
 
         // ランダムに消滅
-        int num = Random.Range(-90, 0);
+        int num = Random.Range(-175, 0);
 
         if (transform.position.y < num)
         {
