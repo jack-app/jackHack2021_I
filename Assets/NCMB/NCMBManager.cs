@@ -127,13 +127,15 @@ namespace NCMB
 
 		void Update ()
 		{
+			/*
 			if (UnityEngine.iOS.NotificationServices.remoteNotificationCount > 0) {
 				ProcessNotification ();
 				NCMBPush push = new NCMBPush ();
 				push.ClearAll ();
-			}
+			}*/
 		}
 
+		/*
 		void ProcessNotification ()
 		{
 			// Payload data dictionary
@@ -177,7 +179,7 @@ namespace NCMB
 			if (onNotificationReceived != null) {
 				onNotificationReceived (pl);
 			}
-		}
+		}*/
 
 		void OnApplicationPause (bool pause)
 		{
@@ -194,8 +196,10 @@ namespace NCMB
 		IEnumerator IEClearAfterAFrame ()
 		{
 			yield return 0;
+			/*
 			NCMBPush push = new NCMBPush ();
 			push.ClearAll ();
+			*/
 		}
 		#endif
 		#endregion
