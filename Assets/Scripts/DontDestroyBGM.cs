@@ -8,7 +8,9 @@ public class DontDestroyBGM : MonoBehaviour
 
     void Awake()
     {
-        if(instance == null)
+        Application.targetFrameRate = 60;
+
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this);
