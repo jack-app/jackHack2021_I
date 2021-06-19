@@ -77,8 +77,6 @@ public class KoiChecker : MonoBehaviour
     public void Clear()
     {
         Debug.Log("clear");
-        score += koiSetList.Count;
-        scoreView.Show(score);
         Invoke("ClearExecute", 1.0f);
     }
 
@@ -110,6 +108,8 @@ public class KoiChecker : MonoBehaviour
         {
             koiCatchCheck[fuIndex] = true;
             koi[koiSetList.IndexOf(fuIndex)].GetComponent<SpriteRenderer>().sprite = clearKoiSprite;
+            score++;
+            scoreView.Show(score);
             return true;
         }
         else
