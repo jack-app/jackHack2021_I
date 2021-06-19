@@ -18,6 +18,9 @@ public class LineDrawer : MonoBehaviour
     GameObject newDrawedLine;
 
     [SerializeField]
+    Transform lineGroup;
+
+    [SerializeField]
     List<GameObject> stockList = new List<GameObject>();
 
     private int maxStock = 3;
@@ -152,7 +155,7 @@ public class LineDrawer : MonoBehaviour
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
     {
         // 新しく引かれる線の描画
-        GameObject newLine = Instantiate(newDrawedLine);
+        GameObject newLine = Instantiate(newDrawedLine, lineGroup);
         newLine.transform.position = startPosition;
         newLine.GetComponent<DeleteCollider>().lineDrawer = this;
         var l = newLine.GetComponent<LineRenderer>();
@@ -186,7 +189,11 @@ public class LineDrawer : MonoBehaviour
         maxStock--;
         stockList[maxStock].SetActive(false);
     }
-    
+
+    private void OnApplicationPause(bool pause)
+    {
+        lineGroup.gameObject.SetActive(!pause);
+    }
 }
 
 [System.Serializable]
