@@ -41,6 +41,7 @@ public class LineDrawer : MonoBehaviour
         private set;
     }
 
+    private bool isPause = false;
 
     // Start is called before the first frame update
     void Start()
@@ -150,6 +151,24 @@ public class LineDrawer : MonoBehaviour
             crossMarkers[1].SetActive(false);
         }
 
+        if (isPause)
+        {
+            Debug.Log("pause update");
+            Debug.Log(lineGroup.GetChild(0).GetComponent<LineRenderer>().startColor);
+            //lineGroup.gameObject.SetActive(false);
+        }
+        //else if(lineGroup.gameObject.activeInHierarchy == false)
+        //{
+        //    lineGroup.gameObject.SetActive(true);
+        //}
+    }
+
+    private void OnGUI()
+    {
+        if (isPause)
+        {
+            GUI.Label(new Rect(100, 100, 50, 50), "Game Paused");
+        }
     }
 
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
@@ -190,9 +209,17 @@ public class LineDrawer : MonoBehaviour
         stockList[maxStock].SetActive(false);
     }
 
-    private void OnApplicationPause(bool pause)
+    private void OnApplicationPause(bool focus)
     {
-        lineGroup.gameObject.SetActive(!pause);
+        //Debug.Log("pause unity");
+        //lineGroup.gameObject.SetActive(!focus);
+
+        isPause = focus;
+        if (isPause)
+        {
+            lineGroup.GetChild(0).GetComponent<LineRenderer>().startColor = Color.red;
+        }
+        
     }
 }
 
