@@ -41,13 +41,17 @@ public class LineDrawer : MonoBehaviour
         private set;
     }
 
-    private bool isPause = false;
+    private float thinkingTime = 0.0f;
+    private float thinkingStartTime = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         lineRenderer = GetComponent<LineRenderer>();
+
+        thinkingTime = 0.0f;
+        PlayerPrefs.SetInt("isCheeting", 0);
 
         float maxY = (amidaRendererList[0].transform.position + amidaRendererList[0].GetPosition(0)).y;
         float minY = (amidaRendererList[0].transform.position + amidaRendererList[0].GetPosition(1)).y;
@@ -151,24 +155,6 @@ public class LineDrawer : MonoBehaviour
             crossMarkers[1].SetActive(false);
         }
 
-        if (isPause)
-        {
-            Debug.Log("pause update");
-            Debug.Log(lineGroup.GetChild(0).GetComponent<LineRenderer>().startColor);
-            //lineGroup.gameObject.SetActive(false);
-        }
-        //else if(lineGroup.gameObject.activeInHierarchy == false)
-        //{
-        //    lineGroup.gameObject.SetActive(true);
-        //}
-    }
-
-    private void OnGUI()
-    {
-        if (isPause)
-        {
-            GUI.Label(new Rect(100, 100, 50, 50), "Game Paused");
-        }
     }
 
     void CreateNewLine(int startIdx, Vector2 startPosition, int endIdx, Vector2 endPosition)
@@ -209,15 +195,25 @@ public class LineDrawer : MonoBehaviour
         stockList[maxStock].SetActive(false);
     }
 
-    private void OnApplicationPause(bool focus)
+    private void OnApplicationPause(bool paused)
     {
-        //Debug.Log("pause unity");
-        //lineGroup.gameObject.SetActive(!focus);
-
-        isPause = focus;
-        if (isPause)
+        if (cantCreateLine)
         {
-            lineGroup.GetChild(0).GetComponent<LineRenderer>().startColor = Color.red;
+            return;
+        }
+        if (paused)
+        {
+            thinkingStartTime = Time.realtimeSinceStartup;
+            Debug.Log(thinkingStartTime);
+        }
+        else
+        {
+            thinkingTime += Time.realtimeSinceStartup - thinkingStartTime;
+            Debug.Log(thinkingTime);
+            if(thinkingTime >= 60f)
+            {
+                PlayerPrefs.SetInt("isCheeting", 1);
+            }
         }
         
     }

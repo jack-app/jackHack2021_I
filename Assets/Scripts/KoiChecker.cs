@@ -93,7 +93,7 @@ public class KoiChecker : MonoBehaviour
         string highScoreKey = "ofuHighScoreEasy";
         if (PlayerPrefs.GetInt("ofuLimit", 1) != 1) highScoreKey = "ofuHighScoreHard";
 
-        if(PlayerPrefs.GetInt(highScoreKey, 0) < score)
+        if(PlayerPrefs.GetInt(highScoreKey, 0) < score && PlayerPrefs.GetInt("isCheeting", 0) == 0)
         {
             PlayerPrefs.SetInt(highScoreKey, score);
         }
